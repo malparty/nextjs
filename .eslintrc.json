@@ -1,0 +1,11 @@
+{
+  "root": true,
+  "extends": [
+    "@nimblehq/eslint-config-nimble-react",
+    "@nimblehq/eslint-config-nimble-testing",
+    "plugin:storybook/recommended"
+  ],
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  }
+}
