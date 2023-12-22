@@ -4,6 +4,8 @@
   "bin": "./bin.js",
   "dependencies": {
     "axios": "^1.6.2",
+    "decompress": "^4.2.1",
+    "decompress-targz": "^4.1.1",
     "yargs": "^17.7.2"
   }
 }
