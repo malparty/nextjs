@@ -18,23 +18,33 @@ if (brandName === undefined || brandName == '') {
 }
 
 // Download the template package using the NPM cli (to allow authenticated requests)
-exec(`npm pack ${template_package}`, (error, stdout, stderr) => {
+const npmPackCmd = `npm pack ${template_package}`;
+console.log('RUN: ', npmPackCmd);
+exec(npmPackCmd, (error, stdout, stderr) => {
   if (error) {
     console.log(`error: ${error.message}`);
     return;
   }
-  if (stderr) {
-    console.log(`stderr: ${stderr}`);
+
+  console.log(stderr);
+
+  // Unexpected error:
+  if (!stdout.includes('malparty-nextjs-template')) {
     return;
   }
-  console.log(`stdout: ${stdout}`);
-  decompressTemplate(stdout);
+
+  filePath = stdout.replace(/(\r\n|\n|\r)/gm, "");
+  decompressTemplate(filePath);
 });
 
 // Decompress the tgz template
 const decompressTemplate = (packageName) => {
   decompress(packageName, brandName, {
     plugins: [decompressTargz()],
+    map: file => {
+      file.path = file.path.replace('package/template/', '');
+      return file;
+    }
   }).then(() => {
     console.log('Files decompressed');
 
